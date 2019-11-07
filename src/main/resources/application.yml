@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: st-microservice-oauth
+
+server:
+  port: 7777
