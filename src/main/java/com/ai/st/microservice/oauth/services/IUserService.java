@@ -1,5 +1,9 @@
 package com.ai.st.microservice.oauth.services;
 
-public class IUserService {
+import com.ai.st.microservice.oauth.dto.UserDto;
+
+public interface IUserService {
+
+	public UserDto findByUsername(String username);
 
 }
