@@ -36,6 +36,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${oauth.clients.site.secret}")
 	private String siteWebSecret;
 
+	@Value("${oauth.clients.site.timeAccessToken}")
+	private Integer siteTimeAccessToken;
+
+	@Value("${oauth.clients.site.timeRefreshToken}")
+	private Integer siteTimeRefreshToken;
+
 	@Value("${oauth.jwt.key}")
 	private String jwtKey;
 
@@ -47,8 +53,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient(siteWebId).secret(passwordEncoder.encode(siteWebSecret)).scopes("read", "write")
-				.authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(3600)
-				.refreshTokenValiditySeconds(3600);
+				.authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(siteTimeAccessToken)
+				.refreshTokenValiditySeconds(siteTimeRefreshToken);
 	}
 
 	@Override
