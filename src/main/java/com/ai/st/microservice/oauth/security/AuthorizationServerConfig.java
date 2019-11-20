@@ -45,6 +45,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${oauth.jwt.key}")
 	private String jwtKey;
 
+	@Value("${oauth.clients.assistant.id}")
+	private String assistantId;
+
+	@Value("${oauth.clients.assistant.secret}")
+	private String assistantSecret;
+
+	@Value("${oauth.clients.assistant.timeAccessToken}")
+	private Integer assistantTimeAccessToken;
+
+	@Value("${oauth.clients.assistant.timeRefreshToken}")
+	private Integer assistantTimeRefreshToken;
+
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
@@ -52,9 +64,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient(siteWebId).secret(passwordEncoder.encode(siteWebSecret)).scopes("read", "write")
+		clients.inMemory()
+				// oauth site web
+				.withClient(siteWebId).secret(passwordEncoder.encode(siteWebSecret)).scopes("read", "write")
 				.authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(siteTimeAccessToken)
-				.refreshTokenValiditySeconds(siteTimeRefreshToken);
+				.refreshTokenValiditySeconds(siteTimeRefreshToken).and()
+				// oauth assistant
+				.withClient(assistantId).secret(passwordEncoder.encode(assistantSecret)).scopes("read", "write")
+				.authorizedGrantTypes("password", "refresh_token").accessTokenValiditySeconds(assistantTimeAccessToken)
+				.refreshTokenValiditySeconds(assistantTimeRefreshToken);
 	}
 
 	@Override
