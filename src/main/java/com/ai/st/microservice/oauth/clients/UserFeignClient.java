@@ -9,7 +9,7 @@ import com.ai.st.microservice.oauth.dto.UserDto;
 @FeignClient(name = "st-microservice-administration")
 public interface UserFeignClient {
 
-	@GetMapping("/api/administration/users/login")
+	@GetMapping("/api/administration/v1/users/login")
 	public UserDto findByUsername(@RequestParam String username);
 
 }
