@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: st-microservice-oauth
+  profiles:
+    active: 
+      - "production"
+  cloud:
+    config:
+      enabled: true
+      
+---
+spring:
+  profiles: develop
+  cloud:
+    config:
+      failFast: true
+      uri: http://localhost:8889
+      
+---
+spring:
+  profiles: production
+  cloud:
+    config:
+      failFast: true
+      uri: http://st-config-server:8890
