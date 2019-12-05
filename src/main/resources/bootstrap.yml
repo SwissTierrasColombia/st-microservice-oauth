@@ -3,7 +3,7 @@ spring:
     name: st-microservice-oauth
   profiles:
     active: 
-      - "develop"
+      - "production"
       
 ---
 spring:
@@ -19,4 +19,4 @@ spring:
   cloud:
     config:
       failFast: true
-      uri: http://localhost:8890
+      uri: http://st-config-server:8890
