@@ -1,6 +1,12 @@
 spring:
   application:
     name: st-microservice-oauth
+    
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
 
 server:
   port: 7777

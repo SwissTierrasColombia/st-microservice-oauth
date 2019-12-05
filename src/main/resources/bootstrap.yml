@@ -4,6 +4,9 @@ spring:
   profiles:
     active: 
       - "production"
+  cloud:
+    config:
+      enabled: true
       
 ---
 spring:
