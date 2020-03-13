@@ -23,3 +23,11 @@ spring:
     config:
       failFast: true
       uri: http://st-config-server:8890
+      
+---
+spring:
+  profiles: aws
+  cloud:
+    config:
+      failFast: true
+      uri: http://st-config-server:8890
