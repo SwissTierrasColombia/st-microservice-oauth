@@ -3,7 +3,7 @@ spring:
     name: st-microservice-oauth
   profiles:
     active: 
-      - "develop"
+      - "production"
   cloud:
     config:
       enabled: true
