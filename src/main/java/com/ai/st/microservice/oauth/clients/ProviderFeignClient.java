@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.ai.st.microservice.oauth.dto.ProviderDto;
 import com.ai.st.microservice.oauth.dto.ProviderRoleDto;
 
 import feign.Feign;
@@ -24,6 +25,12 @@ public interface ProviderFeignClient {
 
 	@GetMapping("/api/providers-supplies/v1/administrators/{userCode}/roles")
 	public List<ProviderRoleDto> findRolesByUser(@PathVariable Long userCode);
+
+	@GetMapping("/api/providers-supplies/v1/users/{userCode}/providers")
+	public ProviderDto findProviderByUserCode(@PathVariable Long userCode);
+
+	@GetMapping("/api/providers-supplies/v1/administrators/{userCode}/providers")
+	public ProviderDto findProviderByAdministrator(@PathVariable Long userCode);
 
 	class Configuration {
 
