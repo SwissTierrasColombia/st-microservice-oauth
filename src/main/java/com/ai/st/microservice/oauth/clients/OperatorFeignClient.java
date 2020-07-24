@@ -1,7 +1,5 @@
 package com.ai.st.microservice.oauth.clients;
 
-import java.util.List;
-
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,21 +9,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.ai.st.microservice.oauth.dto.ManagerDto;
-import com.ai.st.microservice.oauth.dto.ManagerProfileDto;
+import com.ai.st.microservice.oauth.dto.OperatorDto;
 
 import feign.Feign;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 
-@FeignClient(name = "st-microservice-managers", configuration = ManagerFeignClient.Configuration.class)
-public interface ManagerFeignClient {
+@FeignClient(name = "st-microservice-operators", configuration = OperatorFeignClient.Configuration.class)
+public interface OperatorFeignClient {
 
-	@GetMapping("/api/managers/v1/users/{userCode}/profiles")
-	public List<ManagerProfileDto> findProfilesByUser(@PathVariable Long userCode);
-
-	@GetMapping("/api/managers/v1/users/{userCode}/managers")
-	public ManagerDto findManagerByUserCode(@PathVariable Long userCode);
+	@GetMapping("api/operators/v1/users/{userCode}/operators")
+	public OperatorDto findOperatorByUserCode(@PathVariable Long userCode);
 
 	class Configuration {
 
