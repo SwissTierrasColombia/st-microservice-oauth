@@ -2,8 +2,7 @@ spring:
   application:
     name: st-microservice-oauth
   profiles:
-    active: 
-      - "develop"
+    active: "develop"
   cloud:
     config:
       enabled: true
@@ -30,4 +29,4 @@ spring:
   cloud:
     config:
       failFast: true
-      uri: http://172.31.34.168:8890
+      uri: http://3.15.244.160:8890
