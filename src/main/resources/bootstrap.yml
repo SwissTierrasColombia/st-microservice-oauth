@@ -2,7 +2,7 @@ spring:
   application:
     name: st-microservice-oauth
   profiles:
-    active: "production"
+    active: "aws"
   cloud:
     config:
       enabled: true
