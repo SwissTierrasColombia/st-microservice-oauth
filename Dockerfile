@@ -1,4 +1,4 @@
-FROM openjdk:12
+FROM openjdk:11
 
 ARG XMX=1024m
 ARG PROFILE=production
