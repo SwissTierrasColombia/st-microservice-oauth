@@ -10,7 +10,7 @@ ENV CLOUD_CONFIG=$CLOUD_CONFIG
 
 VOLUME /tmp
 
-ADD ./target/st-microservice-oauth-0.0.1-SNAPSHOT.jar st-microservice-oauth.jar
+ADD ./target/st-microservice-oauth-1.0.8.jar st-microservice-oauth.jar
 
 EXPOSE 8080
 
