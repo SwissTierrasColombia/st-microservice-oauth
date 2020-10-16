@@ -10,6 +10,7 @@ public class ManagerDto implements Serializable {
 	private Long id;
 	private String name;
 	private String taxIdentificationNumber;
+	private String alias;
 	private Date createdAt;
 
 	public ManagerDto() {
@@ -46,6 +47,14 @@ public class ManagerDto implements Serializable {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }

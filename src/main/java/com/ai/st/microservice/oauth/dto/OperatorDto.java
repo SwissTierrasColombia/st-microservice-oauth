@@ -11,6 +11,7 @@ public class OperatorDto implements Serializable {
 	private String name;
 	private String taxIdentificationNumber;
 	private Date createdAt;
+	private String alias;
 	private Boolean isPublic;
 
 	public OperatorDto() {
@@ -55,6 +56,14 @@ public class OperatorDto implements Serializable {
 
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }
