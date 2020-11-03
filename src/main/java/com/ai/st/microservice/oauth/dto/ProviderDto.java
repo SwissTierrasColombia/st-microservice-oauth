@@ -8,6 +8,7 @@ public class ProviderDto {
 	private String name;
 	private String taxIdentificationNumber;
 	private Date createdAt;
+	private String alias;
 
 	public ProviderDto() {
 
@@ -43,6 +44,14 @@ public class ProviderDto {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }
