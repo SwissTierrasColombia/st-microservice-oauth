@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -26,97 +28,103 @@ import com.ai.st.microservice.oauth.dto.UserDto;
 @Component
 public class InfoAdditionalToken implements TokenEnhancer {
 
-	@Autowired
-	private UserFeignClient userClient;
+    private final Logger log = LoggerFactory.getLogger(InfoAdditionalToken.class);
 
-	@Autowired
-	private ManagerFeignClient managerClient;
+    @Autowired
+    private UserFeignClient userClient;
 
-	@Autowired
-	private ProviderFeignClient providerClient;
+    @Autowired
+    private ManagerFeignClient managerClient;
 
-	@Autowired
-	private OperatorFeignClient operatorClient;
+    @Autowired
+    private ProviderFeignClient providerClient;
 
-	@Override
-	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+    @Autowired
+    private OperatorFeignClient operatorClient;
 
-		Map<String, Object> additionalInformation = new HashMap<String, Object>();
+    @Override
+    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
-		UserDto userDto = userClient.findByUsername(authentication.getName());
-		additionalInformation.put("first_name", userDto.getFirstName());
-		additionalInformation.put("last_name", userDto.getLastName());
-		additionalInformation.put("email", userDto.getEmail());
-		additionalInformation.put("roles", userDto.getRoles());
+        log.info("Adding information to token");
 
-		RoleDto roleManager = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_MANAGER)).findAny()
-				.orElse(null);
+        Map<String, Object> additionalInformation = new HashMap<>();
 
-		RoleDto roleProvider = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_SUPPLY_SUPPLIER))
-				.findAny().orElse(null);
+        UserDto userDto = userClient.findByUsername(authentication.getName());
 
-		RoleDto roleOperator = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_OPERATOR))
-				.findAny().orElse(null);
+        additionalInformation.put("first_name", userDto.getFirstName());
+        additionalInformation.put("last_name", userDto.getLastName());
+        additionalInformation.put("email", userDto.getEmail());
+        additionalInformation.put("roles", userDto.getRoles());
+        additionalInformation.put("first_login", userDto.getAmountSuccessfulLogins() == 1);
 
-		if (roleManager instanceof RoleDto) {
-			List<ManagerProfileDto> profilesManager = managerClient.findProfilesByUser(userDto.getId());
+        RoleDto roleManager = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_MANAGER)).findAny()
+                .orElse(null);
 
-			ManagerProfileDto profileDirector = profilesManager.stream()
-					.filter(p -> p.getId().equals(RoleDto.SUB_ROLE_DIRECTOR_MANAGER)).findAny().orElse(null);
+        RoleDto roleProvider = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_SUPPLY_SUPPLIER))
+                .findAny().orElse(null);
 
-			ManagerDto managerDto = managerClient.findManagerByUserCode(userDto.getId());
+        RoleDto roleOperator = userDto.getRoles().stream().filter(r -> r.getId().equals(RoleDto.ROLE_OPERATOR))
+                .findAny().orElse(null);
 
-			Boolean isDirector = profileDirector instanceof ManagerProfileDto;
-			additionalInformation.put("is_manager_director", isDirector);
-			additionalInformation.put("manager_sub_roles", profilesManager);
-			additionalInformation.put("entity", managerDto);
-		}
+        if (roleManager != null) {
+            List<ManagerProfileDto> profilesManager = managerClient.findProfilesByUser(userDto.getId());
 
-		if (roleProvider instanceof RoleDto) {
+            ManagerProfileDto profileDirector = profilesManager.stream()
+                    .filter(p -> p.getId().equals(RoleDto.SUB_ROLE_DIRECTOR_MANAGER)).findAny().orElse(null);
 
-			List<ProviderRoleDto> rolesProvider = providerClient.findRolesByUser(userDto.getId());
+            ManagerDto managerDto = managerClient.findManagerByUserCode(userDto.getId());
 
-			ProviderRoleDto roleDirector = rolesProvider.stream()
-					.filter(r -> r.getId().equals(RoleDto.SUB_ROLE_DIRECTOR_PROVIDER)).findAny().orElse(null);
+            Boolean isDirector = profileDirector != null;
+            additionalInformation.put("is_manager_director", isDirector);
+            additionalInformation.put("manager_sub_roles", profilesManager);
+            additionalInformation.put("entity", managerDto);
+        }
 
-			ProviderDto providerUserDto = null;
-			try {
-				providerUserDto = providerClient.findProviderByUserCode(userDto.getId());
-			} catch (Exception e) {
+        if (roleProvider != null) {
 
-			}
+            List<ProviderRoleDto> rolesProvider = providerClient.findRolesByUser(userDto.getId());
 
-			ProviderDto providerAdminDto = null;
-			try {
-				providerAdminDto = providerClient.findProviderByAdministrator(userDto.getId());
-			} catch (Exception e) {
+            ProviderRoleDto roleDirector = rolesProvider.stream()
+                    .filter(r -> r.getId().equals(RoleDto.SUB_ROLE_DIRECTOR_PROVIDER)).findAny().orElse(null);
 
-			}
+            ProviderDto providerUserDto = null;
+            try {
+                providerUserDto = providerClient.findProviderByUserCode(userDto.getId());
+            } catch (Exception ignored) {
 
-			if (providerUserDto != null) {
-				additionalInformation.put("entity", providerUserDto);
-			}
+            }
 
-			if (providerAdminDto != null) {
-				additionalInformation.put("entity", providerAdminDto);
-			}
+            ProviderDto providerAdminDto = null;
+            try {
+                providerAdminDto = providerClient.findProviderByAdministrator(userDto.getId());
+            } catch (Exception ignored) {
 
-			Boolean isDirector = roleDirector instanceof ProviderRoleDto;
-			additionalInformation.put("is_provider_director", isDirector);
-			additionalInformation.put("provider_sub_roles", rolesProvider);
+            }
 
-		}
+            if (providerUserDto != null) {
+                additionalInformation.put("entity", providerUserDto);
+            }
 
-		if (roleOperator instanceof RoleDto) {
+            if (providerAdminDto != null) {
+                additionalInformation.put("entity", providerAdminDto);
+            }
 
-			OperatorDto operatorDto = operatorClient.findOperatorByUserCode(userDto.getId());
-			additionalInformation.put("entity", operatorDto);
+            Boolean isDirector = roleDirector != null;
+            additionalInformation.put("is_provider_director", isDirector);
+            additionalInformation.put("provider_sub_roles", rolesProvider);
 
-		}
+        }
 
-		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+        if (roleOperator != null) {
 
-		return accessToken;
-	}
+            OperatorDto operatorDto = operatorClient.findOperatorByUserCode(userDto.getId());
+            additionalInformation.put("entity", operatorDto);
+
+        }
+
+        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+
+        return accessToken;
+    }
 
 }

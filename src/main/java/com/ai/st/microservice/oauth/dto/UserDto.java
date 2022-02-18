@@ -19,6 +19,8 @@ public class UserDto implements Serializable {
 	private Boolean enabled;
 	private Date createdAt;
 	private Date updatedAt;
+	private Date lastLogin;
+	private Integer amountSuccessfulLogins;
 	private List<RoleDto> roles;
 
 	public UserDto() {
@@ -105,4 +107,19 @@ public class UserDto implements Serializable {
 		this.roles = roles;
 	}
 
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public Integer getAmountSuccessfulLogins() {
+		return amountSuccessfulLogins;
+	}
+
+	public void setAmountSuccessfulLogins(Integer amountSuccessfulLogins) {
+		this.amountSuccessfulLogins = amountSuccessfulLogins;
+	}
 }

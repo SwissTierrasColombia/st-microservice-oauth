@@ -23,32 +23,32 @@ import feign.FeignException;
 @Service
 public class UserService implements UserDetailsService {
 
-	private Logger log = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-	@Autowired
-	private UserFeignClient userClient;
+    @Autowired
+    private UserFeignClient userClient;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		try {
+        try {
 
-			UserDto userDto = userClient.findByUsername(username);
+            UserDto userDto = userClient.findByUsername(username);
 
-			List<GrantedAuthority> authorities = new ArrayList<>();
-			if (userDto.getRoles().size() > 0) {
-				for (RoleDto roleDto : userDto.getRoles()) {
-					authorities.add(new SimpleGrantedAuthority("ROLE_" + roleDto.getName().replace(" ", "_")));
-				}
-			}
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            if (userDto.getRoles().size() > 0) {
+                for (RoleDto roleDto : userDto.getRoles()) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_" + roleDto.getName().replace(" ", "_")));
+                }
+            }
 
-			return new User(userDto.getUsername(), userDto.getPassword(), userDto.getEnabled(), true, true, true,
-					authorities);
+            return new User(userDto.getUsername(), userDto.getPassword(), userDto.getEnabled(), true, true, true,
+                    authorities);
 
-		} catch (FeignException e) {
-			log.error("User not found: " + username);
-			throw new UsernameNotFoundException("User not found: " + username);
-		}
-	}
+        } catch (FeignException e) {
+            log.error(String.format("User %s not found", username));
+            throw new UsernameNotFoundException(String.format("User %s not found", username));
+        }
+    }
 
 }
