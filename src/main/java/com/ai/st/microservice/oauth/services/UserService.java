@@ -3,6 +3,7 @@ package com.ai.st.microservice.oauth.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ai.st.microservice.oauth.services.tracing.SCMTracing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,10 @@ public class UserService implements UserDetailsService {
                     authorities);
 
         } catch (FeignException e) {
-            log.error(String.format("User %s not found", username));
+            String messageError = String.format("Error consultando el usuario para iniciar sesión %s : %s", username,
+                    e.getMessage());
+            SCMTracing.sendError(messageError);
+            log.error(messageError);
             throw new UsernameNotFoundException(String.format("User %s not found", username));
         }
     }
