@@ -5,121 +5,120 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public class UserDto implements Serializable {
-	
-	private static final long serialVersionUID = -7190796347187918375L;
-	
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String username;
-	private String password;
-	private Boolean enabled;
-	private Date createdAt;
-	private Date updatedAt;
-	private Date lastLogin;
-	private Integer amountSuccessfulLogins;
-	private List<RoleDto> roles;
 
-	public UserDto() {
-		this.roles = new ArrayList<RoleDto>();
-	}
+    private static final long serialVersionUID = -7190796347187918375L;
 
-	public Long getId() {
-		return id;
-	}
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String username;
+    private String password;
+    private Boolean enabled;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date lastLogin;
+    private Integer amountSuccessfulLogins;
+    private List<RoleDto> roles;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public UserDto() {
+        this.roles = new ArrayList<RoleDto>();
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public Boolean getEnabled() {
-		return enabled;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public List<RoleDto> getRoles() {
-		return roles;
-	}
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public void setRoles(List<RoleDto> roles) {
-		this.roles = roles;
-	}
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public Date getLastLogin() {
-		return lastLogin;
-	}
+    public List<RoleDto> getRoles() {
+        return roles;
+    }
 
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
+    public void setRoles(List<RoleDto> roles) {
+        this.roles = roles;
+    }
 
-	public Integer getAmountSuccessfulLogins() {
-		return amountSuccessfulLogins;
-	}
+    public Date getLastLogin() {
+        return lastLogin;
+    }
 
-	public void setAmountSuccessfulLogins(Integer amountSuccessfulLogins) {
-		this.amountSuccessfulLogins = amountSuccessfulLogins;
-	}
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Integer getAmountSuccessfulLogins() {
+        return amountSuccessfulLogins;
+    }
+
+    public void setAmountSuccessfulLogins(Integer amountSuccessfulLogins) {
+        this.amountSuccessfulLogins = amountSuccessfulLogins;
+    }
 }

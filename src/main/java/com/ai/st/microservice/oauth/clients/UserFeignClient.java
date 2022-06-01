@@ -10,10 +10,10 @@ import com.ai.st.microservice.oauth.dto.UserDto;
 @FeignClient(name = "st-microservice-administration")
 public interface UserFeignClient {
 
-	@GetMapping("/api/administration/v1/users/login")
-	UserDto findByUsername(@RequestParam(name = "username") String username);
+    @GetMapping("/api/administration/v1/users/login")
+    UserDto findByUsername(@RequestParam(name = "username") String username);
 
-	@PutMapping("/api/administration/v1/users/update-last-login")
-	UserDto updateLastLogin(@RequestParam(name = "username") String username);
+    @PutMapping("/api/administration/v1/users/update-last-login")
+    UserDto updateLastLogin(@RequestParam(name = "username") String username);
 
 }

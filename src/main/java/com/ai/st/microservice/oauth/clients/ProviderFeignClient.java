@@ -23,28 +23,28 @@ import java.util.List;
 @FeignClient(name = "st-microservice-providers", configuration = ProviderFeignClient.Configuration.class)
 public interface ProviderFeignClient {
 
-	@GetMapping("/api/providers-supplies/v1/administrators/{userCode}/roles")
-	public List<ProviderRoleDto> findRolesByUser(@PathVariable Long userCode);
+    @GetMapping("/api/providers-supplies/v1/administrators/{userCode}/roles")
+    List<ProviderRoleDto> findRolesByUser(@PathVariable Long userCode);
 
-	@GetMapping("/api/providers-supplies/v1/users/{userCode}/providers")
-	public ProviderDto findProviderByUserCode(@PathVariable Long userCode);
+    @GetMapping("/api/providers-supplies/v1/users/{userCode}/providers")
+    ProviderDto findProviderByUserCode(@PathVariable Long userCode);
 
-	@GetMapping("/api/providers-supplies/v1/administrators/{userCode}/providers")
-	public ProviderDto findProviderByAdministrator(@PathVariable Long userCode);
+    @GetMapping("/api/providers-supplies/v1/administrators/{userCode}/providers")
+    ProviderDto findProviderByAdministrator(@PathVariable Long userCode);
 
-	class Configuration {
+    class Configuration {
 
-		@Bean
-		Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
-			return new SpringFormEncoder(new SpringEncoder(converters));
-		}
+        @Bean
+        Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
+            return new SpringFormEncoder(new SpringEncoder(converters));
+        }
 
-		@Bean
-		@Scope("prototype")
-		public Feign.Builder feignBuilder() {
-			return Feign.builder();
-		}
+        @Bean
+        @Scope("prototype")
+        public Feign.Builder feignBuilder() {
+            return Feign.builder();
+        }
 
-	}
+    }
 
 }

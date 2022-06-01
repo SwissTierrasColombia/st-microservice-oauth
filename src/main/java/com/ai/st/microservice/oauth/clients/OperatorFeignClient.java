@@ -18,22 +18,22 @@ import feign.form.spring.SpringFormEncoder;
 @FeignClient(name = "st-microservice-operators", configuration = OperatorFeignClient.Configuration.class)
 public interface OperatorFeignClient {
 
-	@GetMapping("api/operators/v1/users/{userCode}/operators")
-	public OperatorDto findOperatorByUserCode(@PathVariable Long userCode);
+    @GetMapping("api/operators/v1/users/{userCode}/operators")
+    OperatorDto findOperatorByUserCode(@PathVariable Long userCode);
 
-	class Configuration {
+    class Configuration {
 
-		@Bean
-		Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
-			return new SpringFormEncoder(new SpringEncoder(converters));
-		}
+        @Bean
+        Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
+            return new SpringFormEncoder(new SpringEncoder(converters));
+        }
 
-		@Bean
-		@Scope("prototype")
-		public Feign.Builder feignBuilder() {
-			return Feign.builder();
-		}
+        @Bean
+        @Scope("prototype")
+        public Feign.Builder feignBuilder() {
+            return Feign.builder();
+        }
 
-	}
+    }
 
 }

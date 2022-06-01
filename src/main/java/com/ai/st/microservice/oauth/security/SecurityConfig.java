@@ -21,9 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .authenticationEventPublisher(authenticationEventPublisher())
-                .userDetailsService(this.userService).passwordEncoder(passwordEncoder());
+        auth.authenticationEventPublisher(authenticationEventPublisher()).userDetailsService(this.userService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override

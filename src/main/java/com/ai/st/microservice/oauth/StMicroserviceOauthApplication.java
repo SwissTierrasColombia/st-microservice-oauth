@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 public class StMicroserviceOauthApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StMicroserviceOauthApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(StMicroserviceOauthApplication.class, args);
+    }
 
 }
