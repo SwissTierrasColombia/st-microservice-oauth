@@ -21,25 +21,25 @@ import feign.form.spring.SpringFormEncoder;
 @FeignClient(name = "st-microservice-managers", configuration = ManagerFeignClient.Configuration.class)
 public interface ManagerFeignClient {
 
-	@GetMapping("/api/managers/v1/users/{userCode}/profiles")
-	public List<ManagerProfileDto> findProfilesByUser(@PathVariable Long userCode);
+    @GetMapping("/api/managers/v1/users/{userCode}/profiles")
+    List<ManagerProfileDto> findProfilesByUser(@PathVariable Long userCode);
 
-	@GetMapping("/api/managers/v1/users/{userCode}/managers")
-	public ManagerDto findManagerByUserCode(@PathVariable Long userCode);
+    @GetMapping("/api/managers/v1/users/{userCode}/managers")
+    ManagerDto findManagerByUserCode(@PathVariable Long userCode);
 
-	class Configuration {
+    class Configuration {
 
-		@Bean
-		Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
-			return new SpringFormEncoder(new SpringEncoder(converters));
-		}
+        @Bean
+        Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
+            return new SpringFormEncoder(new SpringEncoder(converters));
+        }
 
-		@Bean
-		@Scope("prototype")
-		public Feign.Builder feignBuilder() {
-			return Feign.builder();
-		}
+        @Bean
+        @Scope("prototype")
+        public Feign.Builder feignBuilder() {
+            return Feign.builder();
+        }
 
-	}
+    }
 
 }
